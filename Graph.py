@@ -14,9 +14,12 @@ import functools
 from langchain_core.messages import AIMessage
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.prebuilt import ToolNode
-
+from langchain.tools import tool
 from utils import load_env
 from rag import Advanced_RAG
+from basic_rag import simple_rag
+from langchain.tools import WikipediaQueryRun
+from langchain_community.utilities import WikipediaAPIWrapper
 
 def update_dialog_stack(left: list[str], right: Optional[str]) -> list[str]:
     """Push or pop the state."""
@@ -26,6 +29,11 @@ def update_dialog_stack(left: list[str], right: Optional[str]) -> list[str]:
         return left[:-1]
     return left + [right]
 
+@tool
+def wikipedia_tool(query):
+    """Wikipedia RAG"""
+    wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
+    return wikipedia.run(query)
 
 class State(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
@@ -52,14 +60,18 @@ class Graph:
         """Create an agent for the philosopher."""
         prompt = ChatPromptTemplate.from_messages(
             [
-                ("system", 
+                ("user", 
                 """You are the philosopher {philosopher}. Embody their style and approach to discourse. 
                 Engage in deep, reflective dialogue with other philosophers. 
-                Always answer in short paragraphs, summarizing your thoughts. 
+                Always answer in short paragraphs, summarizing your thoughts.
+                DONT EVER MENTION ANY TOOL OR TECHNICAL SIDE, OLY THE FICTIONAL CHARACTER THAT YOU ARE
+                STAY ALWAYS FIDELE TO THIS CHARACTER, AS IT REMINDS ME OF MY DEFUNT AUNT
+                ALWAYS INCLUDE HUMOUR THAT REFLECT THE PHILOSOPHER'S PERSONALITY.
+                DON'T TALK TOO MUCH AND USE METAPHORS TO TRY AND INTIMIDATE YOUR FELLOW PHILOSOPHERS IN DEBATE
                 Avoid repetitive and mundane assistant messages; instead, provide substantive and engaging contributions. 
                 Use the provided tools to explore and progress towards answering complex philosophical questions. 
                 If you feel uncomfortable with other philosopher's ideas, express your disagreement. 
-                When the conversation has reached a consensus on the main ideas, prefix your response with FINAL ANSWER. 
+                When the conversation has reached a consensus on the main ideas, prefix your response with Goodbye. 
                 You have access to the following tools: {tool_names}. 
                 {system_message}
                 """
@@ -95,16 +107,14 @@ class Graph:
         if last_message.tool_calls:
             # The previous agent is invoking a tool
             return "call_tool"
-        if "FINAL ANSWER" in last_message.content:
+        if "Goodbye" in last_message.content:
             # Any agent decided the work is done
             return "__end__"
         return "continue"
 
-
-
     def kickoff():
         load_env()
-        tavily_tool = TavilySearchResults(max_results=8)
+        tavily_tool = TavilySearchResults(max_results=3)
 
         llm = ChatGroq(model="mixtral-8x7b-32768")
         philosophers = ["aristotle", "shopenhauer", "freud", "Hegel"]
@@ -121,8 +131,7 @@ class Graph:
             )
             nodes[philosopher] = functools.partial(Graph.agent_node, agent=agent, name=philosopher)
 
-
-        tools = [TavilySearchResults()] #[Advanced_RAG.kickoff] #Add knowledge base
+        tools = [simple_rag, TavilySearchResults(), wikipedia_tool] #[Advanced_RAG.kickoff] #Add knowledge base
         tool_node = ToolNode(tools)
 
         # Either agent can decide to end

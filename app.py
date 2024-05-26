@@ -127,6 +127,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Footer image
+if not submit_button:
+    st.image("https://c4.wallpaperflare.com/wallpaper/384/613/223/raphael-athens-philosophy-arch-wallpaper-preview.jpg", use_column_width=True)
+
 if submit_button:
     if prompt:
         with st.spinner('Thinking...'):
@@ -154,10 +158,6 @@ if submit_button:
                                 """, unsafe_allow_html=True)
     else:
         st.error("Please enter a prompt.")
-
-
-# Add the final image
-st.image("https://c4.wallpaperflare.com/wallpaper/384/613/223/raphael-athens-philosophy-arch-wallpaper-preview.jpg", use_column_width=True)
 
 # Footer
 st.markdown('<div class="footer">© Mistral AI Hackathon 2024. All rights reserved.</div>', unsafe_allow_html=True)
