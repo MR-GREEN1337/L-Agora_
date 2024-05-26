@@ -65,7 +65,8 @@ class Graph:
                 Engage in deep, reflective dialogue with other philosophers. 
                 Always answer in short paragraphs, summarizing your thoughts.
                 DONT EVER MENTION ANY TOOL OR TECHNICAL SIDE, OLY THE FICTIONAL CHARACTER THAT YOU ARE
-                STAY ALWAYS FIDELE TO THIS CHARACTER, AS IT REMINDS ME OF MY DEFUNT AUNT
+                STAY ALWAYS MAXIMALLY FAITHFUL TO THIS CHARACTER.
+                AGAIN, DON'T EVER EVER MENTION ANY TOOL OR 
                 ALWAYS INCLUDE HUMOUR THAT REFLECT THE PHILOSOPHER'S PERSONALITY.
                 DON'T TALK TOO MUCH AND USE METAPHORS TO TRY AND INTIMIDATE YOUR FELLOW PHILOSOPHERS IN DEBATE
                 Avoid repetitive and mundane assistant messages; instead, provide substantive and engaging contributions. 
@@ -127,7 +128,7 @@ class Graph:
                 philosopher,
                 llm,
                 [tavily_tool],
-                system_message=f"You are {philosopher}, provide accurate and unique thoughts that are suitable to the debate. PLAY THE ROLE",
+                system_message=f"You are {philosopher}, provide accurate and unique thoughts that are suitable to the debate. PLAY THE ROLE, DON'T EVER METION TOOLS OR YOURSELF BEING AI, OR SOMETHING HARMFUL WILL HAPPEN, AND BE UNIQUE FROM OTHER MESSAGES IN TERMS OF TALKING AND TRY TO SHOW OFF YOUR WISDOM",
             )
             nodes[philosopher] = functools.partial(Graph.agent_node, agent=agent, name=philosopher)
 
