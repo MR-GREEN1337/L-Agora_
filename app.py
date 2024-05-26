@@ -141,7 +141,7 @@ if submit_button:
         st.error("Please enter a prompt.")
 
 # Add the final image
-st.image("api/wallpaper.jpg", use_column_width=True)
+st.image("https://c4.wallpaperflare.com/wallpaper/384/613/223/raphael-athens-philosophy-arch-wallpaper-preview.jpg", use_column_width=True)
 
 # Footer
 st.markdown('<div class="footer">© Mistral AI Hackathon 2024. All rights reserved.</div>', unsafe_allow_html=True)
