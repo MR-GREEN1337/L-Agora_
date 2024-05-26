@@ -2,8 +2,6 @@ langchain
 langchain_core
 langgraph
 typing
-typing_extensions
-os
 functools
 langchain_mistralai 
 langchain_community
