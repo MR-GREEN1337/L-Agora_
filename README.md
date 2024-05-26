@@ -35,7 +35,7 @@ To run L'Agora locally, follow these steps:
 
 ## Contributors
 
-- I wanna thank me! Ad Mistral AI
+- I wanna thank me! And Mistral AI
 
 ## License
 
