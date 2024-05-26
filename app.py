@@ -114,6 +114,19 @@ with st.container():
         submit_button = st.form_submit_button(label="Send")
         st.markdown('</div>', unsafe_allow_html=True)
 
+# Define CSS styles for the chat history container
+st.markdown(
+    """
+    <style>
+        .chat-history {
+            max-height: 300px; /* Adjust the max height as needed */
+            overflow-y: auto; /* Enable vertical scrollbar */
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 if submit_button:
     if prompt:
         with st.spinner('Thinking...'):
@@ -127,18 +140,21 @@ if submit_button:
                             with chat_history:
                                 profile_image = profile_images.get(sender, "")
                                 st.markdown(f"""
-                                <div class="chat-container">
-                                    <div class="message">
-                                        <img src="{profile_image}" width="50">
-                                        <div>
-                                            <strong>{sender.title()}</strong>
-                                            <p>{content}</p>
+                                <div class="chat-history">
+                                    <div class="chat-container">
+                                        <div class="message">
+                                            <img src="{profile_image}" width="50">
+                                            <div>
+                                                <strong>{sender.title()}</strong>
+                                                <p>{content}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 """, unsafe_allow_html=True)
     else:
         st.error("Please enter a prompt.")
+
 
 # Add the final image
 st.image("https://c4.wallpaperflare.com/wallpaper/384/613/223/raphael-athens-philosophy-arch-wallpaper-preview.jpg", use_column_width=True)
