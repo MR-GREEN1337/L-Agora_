@@ -1,6 +1,6 @@
 # L'Agora
 
-L'Agora is a conversational platform powered by AI that facilitates philosophical debates between different personas. It leverages state-of-the-art natural language processing techniques to simulate dialogues reminiscent of historical philosophical discussions.
+#[L'Agora] is a conversational platform powered by AI that facilitates philosophical debates between different personas. It leverages state-of-the-art natural language processing techniques to simulate dialogues reminiscent of historical philosophical discussions.
 
 ![L'Agora](page_website.png)
 
